@@ -30,18 +30,21 @@ async function sendNotification(users) {
 		for (const user of users) {
 			let reciver = await User.findOne({ phone: user.phone });
 			if (!reciver) {
-				status.push({ row: user.row, status: false });
+				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 				continue;
 			}
-			let message = await bot.api.sendMessage(reciver.chat_id, `Прибыла ваша посылка: ${user.description}\n\nВ количестве: ${user.arrivedAmount} из ${user.totalAmount}\nПункт выдачи: ${user.place}\nКода выдачи: ${user.code}`, { 
+			let message = `Уважаемый клиент, прибыл заказ ${user.code}:\n`
+			user.goods.forEach(good => message += `\n${good.description} - ${good.arrivedAmount} из ${good.totalAmount}`);
+			message += `\n\nПункт выдачи: ${user.place}`;
+			let response = await bot.api.sendMessage(reciver.chat_id, `Прибыла ваша посылка: ${user.description}\n\nВ количестве: ${user.arrivedAmount} из ${user.totalAmount}\nПункт выдачи: ${user.place}\nКода выдачи: ${user.code}`, { 
 				reply_markup: {
 					inline_keyboard: [[{ text: 'Ссылка на товар', url: user.link }]]
 				}
 			});
-			if (message) {
-				status.push({ row: user.row, status: true });
+			if (response) {
+				user.goods.forEach(good => status.push({ row: good.row, status: true }));
 			} else {
-				status.push({ row: user.row, status: false });
+				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 			}
 			await new Promise(resolve => setTimeout(resolve, 100));
 		}
@@ -52,4 +55,55 @@ async function sendNotification(users) {
 		return status;
 	}
 }
-	
+
+// // users
+// [
+// 	{
+// 		code:'Н1709', 
+// 		place:'Авоська',
+// 		phone:'+79900001299',
+// 		goods: [
+// 			{
+// 				totalAmount:1, 
+// 				arrivedAmount:'', 
+// 				description:"Чехол. кулер для", 
+// 				row:5
+// 			}
+// 		], 
+				
+// 	},
+// 	{
+// 		code:'Н1709', 
+// 		place:'Авоська',
+// 		phone:'+79900001299',
+// 		goods: [
+// 			{
+// 				totalAmount:1, 
+// 				arrivedAmount:'', 
+// 				description:"Чехол. кулер для", 
+// 				row:5
+// 			}
+// 		], 
+				
+// 	},
+// 	{
+// 		code:'Н1710', 
+// 		place:'Марина',
+// 		phone:'+79900065155',
+// 		goods: [
+// 			{
+// 				totalAmount:1, 
+// 				arrivedAmount:'', 
+// 				description:"Подгузники Huggies Elite", 
+// 				row:6
+// 			},
+// 			{
+// 				totalAmount:1, 
+// 				arrivedAmount:'', 
+// 				description:"Заколка-краб Zinnat 1", 
+// 				row:7
+// 			}
+// 		], 
+				
+// 	}
+// ]
