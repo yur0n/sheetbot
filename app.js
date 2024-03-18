@@ -20,7 +20,7 @@ app.post(`/update`, async (req, res) => {
 	res.send(status);
 });
 
-app.listen(3000, () => {
+app.listen(8080, () => {
 	console.log('Server is running on port 3000');
 });
 
