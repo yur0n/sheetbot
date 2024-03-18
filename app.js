@@ -33,7 +33,7 @@ async function sendNotification(users) {
 				status.push({ row: user.row, status: false });
 				continue;
 			}
-			let message = await bot.api.sendMessage(reciver.chat_id, `Прибыла ваша посылка ${user.description} (${user.code}) на пункт ${user.place} в количестве ${user.amount}`, { 
+			let message = await bot.api.sendMessage(reciver.chat_id, `Прибыла ваша посылка ${user.description} (${user.code}).\nВ количестве ${user.amount} из \n\n Пункт выдачи ${user.place}`, { 
 				reply_markup: {
 					inline_keyboard: [[{ text: 'Ссылка на товар', url: user.link }]]
 				}
