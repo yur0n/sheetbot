@@ -5,6 +5,10 @@ import User from './db.js';
 const app = express();
 app.use(express.json());
 
+app.get('/', (req, res) => {
+	res.send('Sheetbot API');
+});
+
 app.post(`/update`, async (req, res) => {
 	let users = req.body
 	console.log(users);
