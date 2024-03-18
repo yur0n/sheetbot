@@ -27,19 +27,23 @@ app.listen(8080, () => {
 async function sendNotification(users) {
 	let status = [];
 	try {
-		for (const phone of users) {
-			let reciver = await User.findOne({ phone });
+		for (const user of users) {
+			let reciver = await User.findOne({ phone: user.phone });
 			if (!reciver) {
-				status.push({ phone: phone, status: false });
+				status.push({ prow: user.row, status: false });
 				continue;
 			}
-			let message = await bot.api.sendMessage(reciver.chat_id, 'Прибыла ваша посылка и ожидает вас в месте назначения!');
+			let message = await bot.api.sendMessage(reciver.chat_id, `Прибыла ваша посылка ${user.description} (${user.code}) на пункт ${user.place} в количестве ${user.amount}`, { 
+				reply_markup: {
+					inline_keyboard: [[{ text: 'Ссылка на товар', url: user.link }]]
+				}
+			});
 			if (message) {
-				status.push({ phone: phone, status: true });
+				status.push({ row: user.row, status: true });
 			} else {
-				status.push({ phone: phone, status: false });
+				status.push({ row: user.row, status: false });
 			}
-			await new Promise(resolve => setTimeout(resolve, 200));
+			await new Promise(resolve => setTimeout(resolve, 100));
 		}
 		return status;
 	}
