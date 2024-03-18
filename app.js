@@ -30,7 +30,7 @@ async function sendNotification(users) {
 		for (const user of users) {
 			let reciver = await User.findOne({ phone: user.phone });
 			if (!reciver) {
-				status.push({ prow: user.row, status: false });
+				status.push({ row: user.row, status: false });
 				continue;
 			}
 			let message = await bot.api.sendMessage(reciver.chat_id, `Прибыла ваша посылка ${user.description} (${user.code}) на пункт ${user.place} в количестве ${user.amount}`, { 
