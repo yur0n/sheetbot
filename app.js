@@ -64,6 +64,8 @@ async function sendNotification(users) {
 	}
 }
 
+export default app;
+
 // // users
 // [
 // 	{
