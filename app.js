@@ -34,8 +34,13 @@ async function sendNotification(users) {
 				continue;
 			}
 			let message = `Уважаемый клиент, прибыл заказ ${user.code}:\n`
-			user.goods.forEach(good => message += `\n${good.description} - ${good.arrivedAmount} из ${good.totalAmount}`);
-			message += `\n\nПункт выдачи: ${user.place}\nyes-pvz.ru`;
+			user.goods.forEach(good => {
+				message += `\n${good.description} - ${good.arrivedAmount}шт`;
+				if (good.arrivedAmount < good.totalAmount) {
+					message += ` из ${good.totalAmount}`;
+				}
+			});
+			message += `\n\nПункт выдачи: ${user.place}\n\nВаш yes-pvz.ru`;
 			let response = await bot.api.sendMessage(reciver.chat_id, message);
 			if (response) {
 				user.goods.forEach(good => status.push({ row: good.row, status: true }));
