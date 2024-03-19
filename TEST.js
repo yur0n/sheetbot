@@ -114,6 +114,10 @@ function editTrigger(e) {
 
 // delete long descriptions
 function trimSentence(sentence) {
-	const words = sentence.split(' ');
-	return words.length < 4 ? sentence : words.slice(0, 3).join(' ');
+	try {
+		var words = sentence.split(' ');
+		return words.length < 4 ? sentence : words.slice(0, 3).join(' ');
+	} catch(e) {
+		return sentence;
+	}
 }
