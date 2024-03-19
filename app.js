@@ -28,7 +28,13 @@ async function sendNotification(users) {
 	let status = [];
 	try {
 		for (const user of users) {
-			let reciver = await User.findOne({ phone: user.phone });
+			let reciver;
+			try {
+				reciver = await User.findOne({ phone: user.phone });
+			} catch (e) {
+				user.goods.forEach(good => status.push({ row: good.row, status: false }));
+				continue;
+			}
 			if (!reciver) {
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 				continue;
@@ -41,10 +47,10 @@ async function sendNotification(users) {
 				}
 			});
 			message += `\n\nПункт выдачи: ${user.place}\n\nВаш yes-pvz.ru`;
-			let response = await bot.api.sendMessage(reciver.chat_id, message);
-			if (response) {
+			try {
+				await bot.api.sendMessage(reciver.chat_id, message);
 				user.goods.forEach(good => status.push({ row: good.row, status: true }));
-			} else {
+			} catch (e) {
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 			}
 			await new Promise(resolve => setTimeout(resolve, 100));
