@@ -20,8 +20,8 @@ app.post(`/update`, async (req, res) => {
 	res.send(status);
 });
 
-app.listen(2052, () => {
-	console.log('Server is running on port 2052');
+app.listen(3000, () => {
+	console.log('Server is running on port 3000');
 });
 
 async function sendNotification(users) {
