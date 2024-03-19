@@ -1,6 +1,6 @@
 import { Bot } from 'grammy';
 import User from './db.js';
-const bot = new Bot('6831064485:AAFxWCd3yZUFI9yuBtQQ4Q7YPB6McuTAq8U');
+const bot = new Bot(process.env.BOT);
 
 bot.command('start', ctx => ctx.reply('Привет, я бот для отслеживания посылок!\n\nОтправьте мне свой номер телефона в формате +79123456789 и я вам сообщу, когда и куда прибудет ваша посылка!'));
 

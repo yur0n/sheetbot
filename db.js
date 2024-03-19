@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-await mongoose.connect("mongodb+srv://yur0n:786512@cluster0.0na8y.mongodb.net/sheetbot");
+await mongoose.connect(process.env.DB);
 
 let userSchema = new mongoose.Schema({
 	chat_id: Number,

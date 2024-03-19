@@ -2,6 +2,7 @@ import express from 'express';
 import bot from './bot.js';
 import User from './db.js';
 
+const port = process.env.PORT || 2052;
 const app = express();
 app.use(express.json());
 
@@ -20,8 +21,8 @@ app.post(`/update`, async (req, res) => {
 	res.send(status);
 });
 
-app.listen(3000, () => {
-	console.log('Server is running on port 3000');
+app.listen(port, () => {
+	console.log('Server is running on port ' + port);
 });
 
 async function sendNotification(users) {
