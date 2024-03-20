@@ -32,7 +32,6 @@ async function sendNotification(users) {
 			let reciver;
 			try {
 				reciver = await User.findOne({ phone: user.phone });
-				console.log(reciver)
 			} catch (e) {
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 				continue;
