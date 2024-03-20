@@ -5,7 +5,7 @@ import User from './db.js';
 
 const port = process.env.PORT || 2052;
 const app = express();
-app.use(bodyParser);
+app.use(bodyParser());
 app.use(express.json());
 
 
