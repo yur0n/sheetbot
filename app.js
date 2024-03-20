@@ -5,16 +5,14 @@ import User from './db.js';
 
 const port = process.env.PORT || 2052;
 const app = express();
-app.use(bodyParser());
 app.use(express.json());
-
+app.use(bodyParser());
 
 app.get('/', (req, res) => {
 	res.send('Sheetbot API');
 });
 app.post(`/update`, async (req, res) => {
 	let users = req.body
-	console.log(users);
 	if (!users?.length ) {
 		res.status(400).send('Invalid data');
 		return;
@@ -67,55 +65,3 @@ async function sendNotification(users) {
 }
 
 export default app;
-
-// // users
-// [
-// 	{
-// 		code:'Н1709', 
-// 		place:'Авоська',
-// 		phone:'+79900001299',
-// 		goods: [
-// 			{
-// 				totalAmount:1, 
-// 				arrivedAmount:'', 
-// 				description:"Чехол. кулер для", 
-// 				row:5
-// 			}
-// 		], 
-				
-// 	},
-// 	{
-// 		code:'Н1709', 
-// 		place:'Авоська',
-// 		phone:'+79900001299',
-// 		goods: [
-// 			{
-// 				totalAmount:1, 
-// 				arrivedAmount:'', 
-// 				description:"Чехол. кулер для", 
-// 				row:5
-// 			}
-// 		], 
-				
-// 	},
-// 	{
-// 		code:'Н1710', 
-// 		place:'Марина',
-// 		phone:'+79900065155',
-// 		goods: [
-// 			{
-// 				totalAmount:1, 
-// 				arrivedAmount:'', 
-// 				description:"Подгузники Huggies Elite", 
-// 				row:6
-// 			},
-// 			{
-// 				totalAmount:1, 
-// 				arrivedAmount:'', 
-// 				description:"Заколка-краб Zinnat 1", 
-// 				row:7
-// 			}
-// 		], 
-				
-// 	}
-// ]
