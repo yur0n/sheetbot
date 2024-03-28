@@ -1,4 +1,4 @@
-import { Bot } from 'grammy';
+import { Bot, GrammyError, HttpError } from 'grammy';
 import User from './db.js';
 const bot = new Bot(process.env.BOT);
 
@@ -23,6 +23,25 @@ bot.on('message', async ctx => {
 		ctx.reply('Мне нужен только ваш номер телефона в формате +79123456789 или +380123456789');
 	}
 });
+
+bot.catch((err) => {
+	const ctx = err.ctx;
+	console.error(`Error while handling update ${ctx.update.update_id}:`);
+	const e = err.error;
+	if (e instanceof GrammyError) { 
+	  console.error("GrammyError:", e.description);
+	}
+	if (e.description) {
+	  console.error("Error in request:", e.description);
+	} else if (e instanceof HttpError) {
+	  console.error("Could not contact Telegram:", e);
+	} else {
+	  console.error("Unknown error:", e);
+	}
+});
+
+process.once("SIGINT", () => bot.stop());
+process.once("SIGTERM", () => bot.stop());
 
 bot.start();
 
