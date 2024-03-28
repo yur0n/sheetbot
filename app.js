@@ -31,7 +31,7 @@ async function sendNotification(users) {
 		for (const user of users) {
 			let reciver;
 			try {
-				reciver = await User.findOne({ phone: user.phone });
+				reciver = await User.findOne({ phone: '+' + user.phone });
 			} catch (e) {
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 				continue;
@@ -42,7 +42,7 @@ async function sendNotification(users) {
 			}
 			let message = `Уважаемый клиент, прибыл заказ ${user.code}:\n`
 			user.goods.forEach(good => {
-				message += `\n${good.description} - ${good.arrivedAmount}шт`;
+				message += `\n${good.description} - ${good.arrivedAmount} шт`;
 				if (good.arrivedAmount < good.totalAmount) {
 					message += ` из ${good.totalAmount}`;
 				}
