@@ -1,5 +1,5 @@
 import express from 'express';
-import bot from './bot.js';
+import bot from './bots/bot.js';
 import bodyParser from 'body-parser-easy';
 import User from './db.js';
 

@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@grammyjs/conversations": "^1.2.0",
+    "@grammyjs/menu": "^1.2.1",
     "body-parser-easy": "^5.2.10",
     "express": "^4.18.3",
     "grammy": "^1.21.1",

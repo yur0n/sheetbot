@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 await mongoose.connect(process.env.DB);
 
 let userSchema = new mongoose.Schema({
-	chat_id: Number,
+	_id: String,
 	phone: String,
 });
 
