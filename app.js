@@ -32,7 +32,6 @@ async function sendNotification(users) {
 			let reciver;
 			try {
 				reciver = await User.findOne({ phone: '+' + user.phone });
-				console.log('Reciver:', reciver);
 			} catch (e) {
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 				continue;
@@ -51,10 +50,8 @@ async function sendNotification(users) {
 			message += `\n\nПункт выдачи: ${user.place}\n\nВаш YES-PVZ.RU`;
 			try {
 				await bot.api.sendMessage(reciver._id, message);
-				console.log('Message sent to', reciver._id);
 				user.goods.forEach(good => status.push({ row: good.row, status: true }));
 			} catch (e) {
-				console.log('Message not sent to', e);
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 			}
 			await new Promise(resolve => setTimeout(resolve, 100));
