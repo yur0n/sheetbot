@@ -49,7 +49,7 @@ async function sendNotification(users) {
 			});
 			message += `\n\nПункт выдачи: ${user.place}\n\nВаш yes-pvz.ru`;
 			try {
-				await bot.api.sendMessage(reciver.chat_id, message);
+				await bot.api.sendMessage(reciver._id, message);
 				user.goods.forEach(good => status.push({ row: good.row, status: true }));
 			} catch (e) {
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
