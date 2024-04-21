@@ -3,7 +3,7 @@ import bot from './bots/bot.js';
 // import bodyParser from 'body-parser-easy';
 import User from './db.js';
 
-const port = process.env.PORT || 2052;
+const port = process.env.PORT || 80;
 const app = express();
 app.use(express.json());
 // app.use(bodyParser());
@@ -50,8 +50,10 @@ async function sendNotification(users) {
 			message += `\n\nПункт выдачи: ${user.place}\n\nВаш YES-PVZ.RU`;
 			try {
 				await bot.api.sendMessage(reciver._id, message);
+				console.log('Message sent to', reciver._id);
 				user.goods.forEach(good => status.push({ row: good.row, status: true }));
 			} catch (e) {
+				console.log('Message not sent to', e);
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));
 			}
 			await new Promise(resolve => setTimeout(resolve, 100));
