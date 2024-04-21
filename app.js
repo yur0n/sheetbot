@@ -1,12 +1,12 @@
 import express from 'express';
 import bot from './bots/bot.js';
-import bodyParser from 'body-parser-easy';
+// import bodyParser from 'body-parser-easy';
 import User from './db.js';
 
 const port = process.env.PORT || 2052;
 const app = express();
 app.use(express.json());
-app.use(bodyParser());
+// app.use(bodyParser());
 
 app.get('/', (req, res) => {
 	res.send('Sheetbot API');
