@@ -47,7 +47,7 @@ async function sendNotification(users) {
 					message += ` из ${good.totalAmount}`;
 				}
 			});
-			message += `\n\nПункт выдачи: ${user.place}\n\nВаш yes-pvz.ru`;
+			message += `\n\nПункт выдачи: ${user.place}\n\nВаш YES-PVZ.RU`;
 			try {
 				await bot.api.sendMessage(reciver._id, message);
 				user.goods.forEach(good => status.push({ row: good.row, status: true }));

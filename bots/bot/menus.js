@@ -6,7 +6,8 @@ const main = new Menu('main-menu')
 	}).row()
 	.text('❌ Удалить номер телефона', async ctx => {
 		await ctx.conversation.enter('delPhone')
-	})
+	}).row()
+	.url('💬 Связаться с менеджером', '@WB_OZON_YES')
 
 export default main
 
