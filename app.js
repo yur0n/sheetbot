@@ -1,7 +1,7 @@
 import express from 'express';
 import bot from './bots/bot.js';
 // import bodyParser from 'body-parser-easy';
-import User from './db.js';
+import { User, Message } from './db.js';
 
 const port = process.env.PORT || 80;
 const app = express();
@@ -49,7 +49,12 @@ async function sendNotification(users) {
 			});
 			message += `\n\nПункт выдачи: ${user.place}\n\nВаш YES-PVZ.RU`;
 			try {
-				await bot.api.sendMessage(reciver._id, message);
+				await bot.api.sendMessage(reciver.telegram, message);
+				await Message.create({
+					userId: reciver._id.toString(),
+					message: 'ОПОВЕЩЕН О ПРИБЫТИИ ЗАКАЗА',
+					user: false
+				});
 				user.goods.forEach(good => status.push({ row: good.row, status: true }));
 			} catch (e) {
 				user.goods.forEach(good => status.push({ row: good.row, status: false }));

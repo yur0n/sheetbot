@@ -1,4 +1,4 @@
-import User from '../../db.js';
+import { User } from '../../db.js';
 import { InlineKeyboard } from 'grammy'
 import { replyAndDel, deleteMsg, deleteMsgTime } from './functions.js'
 
@@ -8,10 +8,11 @@ export async function delPhone(conversation, ctx) {
 			reply_markup: new InlineKeyboard().text('✅ Да').text('🚫 Отменить')
 		});
 		ctx = await conversation.wait();
+		deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 		deleteMsg(ctx, ask.chat.id, ask.message_id)
 		if (ctx.update.callback_query?.data == '🚫 Отменить') return
 		if (ctx.update.callback_query?.data == '✅ Да') {
-			let user = await User.findById(ctx.from.id);
+			let user = await User.findOne({ telegram: ctx.from.id });
 			if (user) {
 				await user.updateOne({ phone: '' });
 				replyAndDel(ctx, '✅ Номер удален');
@@ -31,11 +32,12 @@ export async function addPhone(conversation, ctx) {
 			reply_markup: new InlineKeyboard().text('🚫 Отменить')
 		});
 		ctx = await conversation.wait();
+		deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 		deleteMsg(ctx, ask.chat.id, ask.message_id)
 		if (ctx.update.callback_query?.data) return
 		if (ctx.msg.text.match(/^\+79\d{9}$/) || ctx.msg.text.match(/^\+380\d{9}$/)) {
 			const phone = ctx.msg.text;
-			const user = await User.findByIdAndUpdate(ctx.from.id, { phone }, { upsert: true, new: true });
+			const user = await User.findOneAndUpdate({ telegram: ctx.from.id }, { phone }, { upsert: true, new: true });
 			replyAndDel(ctx, `✅ Номер ${phone} сохранен, ждите уведомлений о прибытии ваших заказов!`, 6_000);
 		} else {
 			replyAndDel(ctx, '❌ Неверный формат номера');
