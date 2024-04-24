@@ -37,7 +37,12 @@ export async function addPhone(conversation, ctx) {
 		if (ctx.update.callback_query?.data) return
 		if (ctx.msg.text.match(/^\+79\d{9}$/) || ctx.msg.text.match(/^\+380\d{9}$/)) {
 			const phone = ctx.msg.text;
-			const user = await User.findOneAndUpdate({ telegram: ctx.from.id }, { phone }, { upsert: true, new: true });
+			const user = {
+				phone,
+				name: ctx.from.first_name? ctx.from.last_name ? `${ctx.from.first_name} ${ctx.from.last_name}` : ctx.from.first_name : '',
+				username: ctx.from.username
+			}
+			await User.findOneAndUpdate({ telegram: ctx.from.id }, user, { upsert: true, new: true });
 			replyAndDel(ctx, `✅ Номер ${phone} сохранен, ждите уведомлений о прибытии ваших заказов!`, 6_000);
 		} else {
 			replyAndDel(ctx, '❌ Неверный формат номера');
