@@ -8,7 +8,6 @@ export async function delPhone(conversation, ctx) {
 			reply_markup: new InlineKeyboard().text('✅ Да').text('🚫 Отменить')
 		});
 		ctx = await conversation.wait();
-		deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 		deleteMsg(ctx, ask.chat.id, ask.message_id)
 		if (ctx.update.callback_query?.data == '🚫 Отменить') return
 		if (ctx.update.callback_query?.data == '✅ Да') {
@@ -20,6 +19,7 @@ export async function delPhone(conversation, ctx) {
 				replyAndDel(ctx, 'ℹ️ Вы не зарегистрированы');
 			}
 		}
+		deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 	} catch (error) {
 		console.log('Bot error:', error)
 		replyAndDel(ctx, `Системная ошибка, попробуйте позже`)
@@ -32,9 +32,9 @@ export async function addPhone(conversation, ctx) {
 			reply_markup: new InlineKeyboard().text('🚫 Отменить')
 		});
 		ctx = await conversation.wait();
-		deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 		deleteMsg(ctx, ask.chat.id, ask.message_id)
 		if (ctx.update.callback_query?.data) return
+		deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 		if (ctx.msg.text.match(/^\+79\d{9}$/) || ctx.msg.text.match(/^\+380\d{9}$/)) {
 			const phone = ctx.msg.text;
 			const user = {
