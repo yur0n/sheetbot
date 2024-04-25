@@ -18,8 +18,9 @@ export async function delPhone(conversation, ctx) {
 			} else {
 				replyAndDel(ctx, 'ℹ️ Вы не зарегистрированы');
 			}
+		} else {
+			deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 		}
-		deleteMsg(ctx, ctx.from.id, ctx.message.message_id);
 	} catch (error) {
 		console.log('Bot error:', error)
 		replyAndDel(ctx, `Системная ошибка, попробуйте позже`)
